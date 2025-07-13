@@ -1,47 +1,88 @@
-# Container-Orchestration-and-Docker-Swarm
-# 🐳 Docker Swarm Two-Tier Application Deployment – By Sultan
+🐳 Docker Swarm Two-Tier Application Deployment
+This project demonstrates how to deploy a simple two-tier application using Docker Swarm — a native container orchestration tool built into Docker.
 
-This project shows how to deploy a simple **two‑tier application** with **Docker Swarm**.
+The stack includes:
 
-**Services**
+🛠️ A backend service (Node.js, Python, etc.)
 
-| Tier      | Image                               | Replicas |
-|-----------|-------------------------------------|----------|
-| Backend   | `sultan/two-tier-backend-image:latest` | 3        |
-| Frontend  | `sultan/two-tier-frontend-image:v2`    | 3        |
+🌐 A frontend service (React, Angular, etc.)
 
-## 🚀 Quick Start
+Both are deployed in multiple replicas to achieve high availability and load balancing.
 
-1. **Init Swarm**
+📦 What is Docker Swarm?
+Docker Swarm is a clustering and orchestration tool for Docker containers. It lets you deploy, scale, and manage services across a group of Docker hosts (nodes) as a single virtual system.
 
-   ```bash
-   docker swarm init
-   ```
+Key features:
 
-2. **Deploy**
+🔁 Service Replication: Run multiple replicas of your app.
 
-   ```bash
-   docker stack deploy -c stack.yaml two-tier
-   ```
+⚖️ Load Balancing: Distributes requests across containers.
 
-3. **Check**
+💥 Self-healing: If a container fails, Swarm restarts it.
 
-   ```bash
-   docker service ls
-   ```
+🔐 Built-in security: TLS by default.
 
-   App is available at **http://localhost:8081**
+📁 Project Structure
+bash
+Copy
+Edit
+stack.yaml    # Docker Swarm stack definition file
+README.md     # You're reading it 😊
+🚀 Deployment Instructions
+1. Initialize Docker Swarm
+bash
+Copy
+Edit
+docker swarm init
+This makes your machine the Swarm Manager.
 
-4. **Remove**
+2. Create stack.yaml
+yaml
+Copy
+Edit
+version: "3"
+services:
+  backend-service:
+    image: zihadbappy/two-tier-backend-image:latest
+    deploy:
+      replicas: 3
 
-   ```bash
-   docker stack rm two-tier
-   ```
+  frontend:
+    image: zihadbappy/two-tier-frontend-image:v2
+    deploy:
+      replicas: 3
+    ports:
+      - 8081:80
+3. Deploy the Stack
+bash
+Copy
+Edit
+docker stack deploy -c stack.yaml two-tier
+4. Verify the Services
+bash
+Copy
+Edit
+docker service ls
+View individual service tasks:
 
-## ℹ️ stack.yaml
+bash
+Copy
+Edit
+docker service ps two-tier_frontend
+docker service ps two-tier_backend-service
+Access frontend in browser:
+http://localhost:8081
 
-All configuration lives in `stack.yaml` (see file in this repo).
+🧼 To Remove the Stack
+bash
+Copy
+Edit
+docker stack rm two-tier
+🧠 Why Use Swarm for Two-Tier Apps?
+Separates frontend and backend for better scalability
 
----
+Allows independent deployment and scaling
 
-_Made with ❤️ by Sultan_
+Enables rolling updates and self-healing
+
+Great for learning orchestration concepts before moving to Kubernetes
